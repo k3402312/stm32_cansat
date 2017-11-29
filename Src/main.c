@@ -54,7 +54,12 @@ UART_HandleTypeDef huart2;
 FATFS FatFs;
 FIL Fil;
 
-enum
+#define  FORWARD    0
+#define  RECESSION  1
+#define  RIGHT      2
+#define  LEFT       3
+#define  STOP       4
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -72,8 +77,31 @@ static void MX_I2C1_Init(void);
 /* USER CODE BEGIN 0 */
 void turnMotor(int rotateDirection){
   switch(rotateDirection){
-    case :
-
+    case FORWARD:
+      HAL_GPIO_WritePin(m11_GPIO_Port,  m11_Pin,  GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(m1_GPIO_Port,   m1_Pin,   GPIO_PIN_SET);
+      HAL_GPIO_WritePin(m22_GPIO_Port,  m22_Pin,  GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(m2_GPIO_Port,   m2_Pin,   GPIO_PIN_SET);
+    case RECESSION:
+      HAL_GPIO_WritePin(m1_GPIO_Port,   m1_Pin,   GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(m11_GPIO_Port,  m11_Pin,  GPIO_PIN_SET);
+      HAL_GPIO_WritePin(m2_GPIO_Port,   m2_Pin,   GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(m22_GPIO_Port,  m22_Pin,  GPIO_PIN_SET);
+    case RIGHT:
+      HAL_GPIO_WritePin(m1_GPIO_Port,   m1_Pin,   GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(m11_GPIO_Port,  m11_Pin,  GPIO_PIN_SET);
+      HAL_GPIO_WritePin(m22_GPIO_Port,  m22_Pin,  GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(m2_GPIO_Port,   m2_Pin,   GPIO_PIN_SET);
+    case LEFT:
+      HAL_GPIO_WritePin(m11_GPIO_Port,  m11_Pin,  GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(m1_GPIO_Port,   m1_Pin,   GPIO_PIN_SET);
+      HAL_GPIO_WritePin(m2_GPIO_Port,   m2_Pin,   GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(m22_GPIO_Port,  m22_Pin,  GPIO_PIN_SET);
+    case STOP:
+      HAL_GPIO_WritePin(m1_GPIO_Port,   m1_Pin,   GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(m11_GPIO_Port,  m11_Pin,  GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(m2_GPIO_Port,   m2_Pin,   GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(m22_GPIO_Port,  m22_Pin,  GPIO_PIN_RESET);
   }
 }
 
@@ -109,7 +137,7 @@ int main(void)
   MX_I2C1_Init();
 
   /* USER CODE BEGIN 2 */
-  /*
+  
   int bw;
 
   if(f_mount(&FatFs, "", 0) == FR_OK){
@@ -129,7 +157,6 @@ int main(void)
     printf("Open Fail!!\n");
     while(1);
   }
-  */
 
   /* USER CODE END 2 */
 
@@ -140,29 +167,6 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-	  HAL_GPIO_WritePin(m1_GPIO_Port, m1_Pin, GPIO_PIN_SET);
-	  HAL_GPIO_WritePin(m11_GPIO_Port, m11_Pin, GPIO_PIN_RESET);
-	  HAL_GPIO_WritePin(m2_GPIO_Port, m2_Pin, GPIO_PIN_SET);
-	  HAL_GPIO_WritePin(m22_GPIO_Port, m22_Pin, GPIO_PIN_RESET);
-	  HAL_Delay(10000);
-
-	  HAL_GPIO_WritePin(m1_GPIO_Port, m1_Pin, GPIO_PIN_RESET);
-	  HAL_GPIO_WritePin(m11_GPIO_Port, m11_Pin, GPIO_PIN_RESET);
-	  HAL_GPIO_WritePin(m2_GPIO_Port, m2_Pin, GPIO_PIN_RESET);
-	  HAL_GPIO_WritePin(m22_GPIO_Port, m22_Pin, GPIO_PIN_RESET);
-	  HAL_Delay(1000);
-
-	  HAL_GPIO_WritePin(m1_GPIO_Port, m1_Pin, GPIO_PIN_SET);
-	  HAL_GPIO_WritePin(m11_GPIO_Port, m11_Pin, GPIO_PIN_RESET);
-	  HAL_GPIO_WritePin(m2_GPIO_Port, m2_Pin, GPIO_PIN_RESET);
-	  HAL_GPIO_WritePin(m22_GPIO_Port, m22_Pin, GPIO_PIN_SET);
-	  HAL_Delay(3000);
-
-	  HAL_GPIO_WritePin(m1_GPIO_Port, m1_Pin, GPIO_PIN_RESET);
-	  HAL_GPIO_WritePin(m11_GPIO_Port, m11_Pin, GPIO_PIN_RESET);
-	  HAL_GPIO_WritePin(m2_GPIO_Port, m2_Pin, GPIO_PIN_RESET);
-	  HAL_GPIO_WritePin(m22_GPIO_Port, m22_Pin, GPIO_PIN_RESET);
-	  HAL_Delay(1000);
 
   }
   /* USER CODE END 3 */
